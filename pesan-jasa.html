@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesan Jasa - Homecare Solutions</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="assets/Home Care Logo 2.png"
+      type="image/png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container nav-container">
+        <div class="logo">
+          <a href="index.html">
+            <img
+              src="assets/Home Care Logo.png"
+              alt="Homecare Solutions Logo"
+            />
+          </a>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="layanan.html">Layanan</a></li>
+            <li><a href="pesan-jasa.html" class="active">Pesan Jasa</a></li>
+            <li><a href="tentang-kami.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="booking-section">
+      <div class="container booking-container">
+        <div class="booking-card">
+          <h2>Pesan Jasa Kami Sekarang</h2>
+
+          <form name="homecare-booking-form">
+            <input type="hidden" name="tab_name" value="DataPesanan" />
+
+            <div class="form-group">
+              <label>Nama Lengkap</label>
+              <input
+                type="text"
+                name="nama"
+                placeholder="Masukkan Nama Lengkap Anda"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Nomor Whatsapp/Telepon</label>
+              <input
+                type="number"
+                name="whatsapp"
+                placeholder="Contoh: 62851234567890"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Contoh: homecare123@gmail.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Alamat Lengkap</label>
+              <input
+                type="text"
+                name="alamat"
+                placeholder="Masukkan Alamat Lengkap Anda, Contoh: Jl. Contoh No. 123, Nama Kota"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Jenis Layanan</label>
+                <select name="layanan" required>
+                  <option value="" disabled selected>
+                    Pilih Layanan yang Anda Butuhkan
+                  </option>
+                  <option value="Service AC">Service AC</option>
+                  <option value="Perbaikan Listrik">Perbaikan Listrik</option>
+                  <option value="Ahli Pipa">Ahli Pipa</option>
+                  <option value="Pembersihan Rumah">Pembersihan Rumah</option>
+                  <option value="Pengecatan Rumah">Pengecatan Rumah</option>
+                  <option value="Perawatan Taman">Perawatan Taman</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Tingkat Urgensi</label>
+                <select name="urgensi" required>
+                  <option value="" disabled selected>
+                    Pilih Tingkat Urgensi Anda
+                  </option>
+                  <option value="Darurat">Darurat (Segera Datang)</option>
+                  <option value="Sedang">Sedang (Hari Ini)</option>
+                  <option value="Biasa">Biasa (Jadwalkan)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Tanggal Pemesanan</label>
+                <input type="date" name="tanggal" required />
+              </div>
+              <div class="form-group">
+                <label>Waktu Pemesanan</label>
+                <input type="time" name="jam" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Deskripsi Masalah</label>
+              <textarea
+                name="masalah"
+                rows="3"
+                placeholder="Deskripsikan Masalah Anda"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Waktu yang disukai</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="waktu_preferensi" value="Pagi" />
+                  <span>Pagi (08:00 - 12:00)</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="waktu_preferensi" value="Siang" />
+                  <span>Siang (13:00 - 17:00)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary btn-full btn-kirim">
+                Pesan Sekarang
+              </button>
+              <button
+                class="btn btn-primary btn-full btn-loading"
+                type="button"
+                style="display: none"
+                disabled
+              >
+                Loading...
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container footer-container">
+        <div class="footer-col">
+          <h4>HOMECARE SOLUTIONS</h4>
+          <p>
+            <i class="fas fa-map-marker-alt"></i> Jl. Bersih, Depan Rumah Saya
+          </p>
+          <p>
+            Solusi terpercaya untuk perawatan dan perbaikan rumah Anda dengan
+            teknisi profesional.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Hubungi Kami</h4>
+          <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
+          <p><i class="fas fa-envelope"></i> info@homecare.com</p>
+          <p><i class="fas fa-phone"></i> (021) 555-0123</p>
+        </div>
+        <div class="footer-col">
+          <h4>Ikuti Kami</h4>
+          <p>Dapatkan info terbaru melalui sosial media kami.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Homecare Solutions. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // === GANTI URL DI BAWAH INI DENGAN LINK APPS SCRIPT DEPLOY ANDA ===
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbzqHauuQLLcJt51Nrn7do6pRStS9oU5wsuAlHo4faxWRUvnpbfGWCSOQHku5sjtCiBAuQ/exec";
+
+      const form = document.forms["homecare-booking-form"];
+      const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Tampilkan tombol loading
+        btnLoading.style.display = "block";
+        btnKirim.style.display = "none";
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) => {
+            // Sembunyikan loading, tampilkan tombol kirim lagi
+            btnLoading.style.display = "none";
+            btnKirim.style.display = "block";
+            // Tampilkan pesan sukses
+            alert(
+              "Terima kasih! Pemesanan Anda berhasil dikirim. Kami akan segera menghubungi Anda."
+            );
+            // Kosongkan form
+            form.reset();
+          })
+          .catch((error) => {
+            btnLoading.style.display = "none";
+            btnKirim.style.display = "block";
+            alert(
+              "Maaf, terjadi kesalahan saat mengirim pesanan. Silakan coba lagi."
+            );
+            console.error("Error!", error.message);
+          });
+      });
+    </script>
+  </body>
+</html>
