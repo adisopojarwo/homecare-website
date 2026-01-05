@@ -76,6 +76,9 @@
                 type="email"
                 name="email"
                 placeholder="Contoh: homecare123@gmail.com"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Mohon masukkan alamat email yang valid"
               />
             </div>
 
@@ -84,7 +87,7 @@
               <input
                 type="text"
                 name="alamat"
-                placeholder="Masukkan Alamat Lengkap Anda, Contoh: Jl. Contoh No. 123, Nama Kota"
+                placeholder="Masukkan Alamat Lengkap Anda"
                 required
               />
             </div>
@@ -120,11 +123,11 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Tanggal Pemesanan</label>
-                <input type="date" name="tanggal" required />
+                <input type="date" name="tanggal" id="dateInput" required />
               </div>
               <div class="form-group">
                 <label>Waktu Pemesanan</label>
-                <input type="time" name="jam" required />
+                <input type="time" name="jam" id="timeInput" required />
               </div>
             </div>
 
@@ -176,10 +179,7 @@
           <p>
             <i class="fas fa-map-marker-alt"></i> Jl. Bersih, Depan Rumah Saya
           </p>
-          <p>
-            Solusi terpercaya untuk perawatan dan perbaikan rumah Anda dengan
-            teknisi profesional.
-          </p>
+          <p>Solusi terpercaya untuk perawatan dan perbaikan rumah Anda.</p>
         </div>
         <div class="footer-col">
           <h4>Hubungi Kami</h4>
@@ -189,7 +189,6 @@
         </div>
         <div class="footer-col">
           <h4>Ikuti Kami</h4>
-          <p>Dapatkan info terbaru melalui sosial media kami.</p>
           <div class="social-icons">
             <a href="#"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-facebook"></i></a>
@@ -203,8 +202,83 @@
       </div>
     </footer>
 
+    <div id="customModal" class="modal-overlay">
+      <div class="modal-box">
+        <div id="modalIcon" class="modal-icon"></div>
+        <h3 id="modalTitle">Judul</h3>
+        <p id="modalMessage">Pesan disini...</p>
+        <button onclick="closeModal()" id="modalBtn" class="btn-modal">
+          Tutup
+        </button>
+      </div>
+    </div>
+
     <script>
-      // === GANTI URL DI BAWAH INI DENGAN LINK APPS SCRIPT DEPLOY ANDA ===
+      // === FUNGSI MODAL (POPUP) ===
+      const modal = document.getElementById("customModal");
+      const modalIcon = document.getElementById("modalIcon");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalMessage = document.getElementById("modalMessage");
+      const modalBtn = document.getElementById("modalBtn");
+
+      // Fungsi menampilkan modal
+      function showModal(title, message, isError = false) {
+        modalTitle.innerText = title;
+        modalMessage.innerText = message;
+
+        if (isError) {
+          modalIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+          modalIcon.classList.add("error");
+          modalBtn.classList.add("error-btn");
+        } else {
+          modalIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+          modalIcon.classList.remove("error");
+          modalBtn.classList.remove("error-btn");
+        }
+
+        modal.classList.add("show");
+      }
+
+      // Fungsi menutup modal
+      function closeModal() {
+        modal.classList.remove("show");
+      }
+
+      // === VALIDASI TANGGAL & WAKTU ===
+      const dateInput = document.getElementById("dateInput");
+      const timeInput = document.getElementById("timeInput");
+
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const yyyy = today.getFullYear();
+      const todayString = yyyy + "-" + mm + "-" + dd;
+
+      dateInput.setAttribute("min", todayString);
+
+      function validateTime() {
+        if (dateInput.value === todayString) {
+          const now = new Date();
+          const currentHours = String(now.getHours()).padStart(2, "0");
+          const currentMinutes = String(now.getMinutes()).padStart(2, "0");
+          const currentTime = currentHours + ":" + currentMinutes;
+
+          if (timeInput.value && timeInput.value < currentTime) {
+            // Ganti alert dengan Custom Modal
+            showModal(
+              "Waktu Tidak Valid",
+              "Waktu yang dipilih sudah berlalu. Silakan pilih waktu yang akan datang.",
+              true
+            );
+            timeInput.value = "";
+          }
+        }
+      }
+
+      timeInput.addEventListener("change", validateTime);
+      dateInput.addEventListener("change", validateTime);
+
+      // === KIRIM KE GOOGLE SHEETS ===
       const scriptURL =
         "https://script.google.com/macros/s/AKfycbzqHauuQLLcJt51Nrn7do6pRStS9oU5wsuAlHo4faxWRUvnpbfGWCSOQHku5sjtCiBAuQ/exec";
 
@@ -214,27 +288,41 @@
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        // Tampilkan tombol loading
+
+        // Validasi Waktu Terakhir (Double Check)
+        if (dateInput.value === todayString) {
+          const now = new Date();
+          const currentHours = String(now.getHours()).padStart(2, "0");
+          const currentMinutes = String(now.getMinutes()).padStart(2, "0");
+          const currentTime = currentHours + ":" + currentMinutes;
+          if (timeInput.value < currentTime) {
+            showModal("Error", "Waktu tidak valid (sudah berlalu).", true);
+            return;
+          }
+        }
+
         btnLoading.style.display = "block";
         btnKirim.style.display = "none";
 
         fetch(scriptURL, { method: "POST", body: new FormData(form) })
           .then((response) => {
-            // Sembunyikan loading, tampilkan tombol kirim lagi
             btnLoading.style.display = "none";
             btnKirim.style.display = "block";
-            // Tampilkan pesan sukses
-            alert(
+            // Sukses: Tampilkan Modal Hijau
+            showModal(
+              "Berhasil!",
               "Terima kasih! Pemesanan Anda berhasil dikirim. Kami akan segera menghubungi Anda."
             );
-            // Kosongkan form
             form.reset();
           })
           .catch((error) => {
             btnLoading.style.display = "none";
             btnKirim.style.display = "block";
-            alert(
-              "Maaf, terjadi kesalahan saat mengirim pesanan. Silakan coba lagi."
+            // Gagal: Tampilkan Modal Merah
+            showModal(
+              "Gagal",
+              "Maaf, terjadi kesalahan saat mengirim pesanan. Silakan coba lagi.",
+              true
             );
             console.error("Error!", error.message);
           });
